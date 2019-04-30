@@ -4,7 +4,12 @@
   "description": "A server to stream music files",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node dist/server.js",
+    "start": "npm run serve",
+    "build": "npm run build:ts && npm run tslint",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "build:ts": "tsc"
   },
   "keywords": [
     "audio",
@@ -15,6 +20,20 @@
   "dependencies": {
     "debug": "^4.1.1",
     "dotenv": "^7.0.0",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "mongodb": "^3.2.3"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "nodemon": "^1.18.11",
+    "ts-node": "^8.1.0",
+    "tslint": "^5.16.0",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.4.5"
   }
 }
