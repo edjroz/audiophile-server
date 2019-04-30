@@ -1,0 +1,20 @@
+{
+  "name": "audiophile-server",
+  "version": "0.0.1",
+  "description": "A server to stream music files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "audio",
+    "stream"
+  ],
+  "author": "Eduardo Diaz <eduardo.j.diaz.rodriguez@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^4.1.1",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4"
+  }
+}
