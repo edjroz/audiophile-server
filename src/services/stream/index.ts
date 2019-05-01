@@ -1,5 +1,5 @@
 import mongodb from 'mongodb'
-import { ReadStream } from 'fs'
+import { ServerResponse } from 'http'
 
 interface IBucketRepository {
   getSongStream (trackID: mongodb.ObjectID): mongodb.GridFSBucketReadStream
@@ -13,6 +13,12 @@ export default class StreamService {
     this.bucket = repository
   }
 
-  streamSong (trackID: mongodb.ObjectID, res: ReadStream) {}
-  uploadSong (trackName: string, res: ReadStream) {}
+  // TODO: use interface for the response object
+  // It's meant to be abstract from any implementation of server
+  streamSong (trackID: mongodb.ObjectID, res: ServerResponse) {
+    return res
+  }
+  uploadSong (trackName: string, res: ServerResponse) {
+    return res
+  }
 }
