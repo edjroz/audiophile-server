@@ -5,15 +5,18 @@ import mongodb from 'mongodb'
 import debug from 'debug'
 
 import createApi from '../api'
+import adapters from  '../adapters'
 
 // TODO: create Config interface
-export const CreateDbConnection = async ({ dbUri }: { dbUri: string }) => {
-  console.log(dbUri)
+export const CreateDbConnection = async ({ dbUri, dbName }: { dbUri: string, dbName: string }) => {
   if (!dbUri) {
     throw new Error('Invalid Configuration, cannot get mongodb uri')
   }
+  if (!dbName) {
+    throw new Error('Invalid Configuration, cannot get mongodb uri')
+  }
   return new Promise((resolve, reject) => {
-    mongodb.connect(dbUri, { useNewUrlParser: true },(err: Error, conn: any) => {
+    mongodb.connect(dbUri, { useNewUrlParser: true },  (err: Error, conn: any) => {
       if (err) {
         debug('app:startup:database:error')(err)
         return reject(new Error("couldn't connect with database"))
@@ -22,9 +25,11 @@ export const CreateDbConnection = async ({ dbUri }: { dbUri: string }) => {
     })
   })
 }
-export const CreateServices = async () => {
-  // TODO: investigate DI
-  return new Promise(() => ({}))
+export const CreateServices = async (db: any) => {
+  const services: { bucket: any } = {
+    bucket: new adapters.BucketRepository(db)
+  }
+  return services;
 }
 export const StartApiServer = async (config: any, services: any) => {
   if (!config.port && (process.env.NODE_ENV === 'test' && config.port !== 0)) {
@@ -46,9 +51,8 @@ export const StartApiServer = async (config: any, services: any) => {
 
 // TODO: create ctx interface
 export const startApplication = async (config: any, ctx: any) => {
-  console.log(config)
   ctx.dbConnection = await CreateDbConnection(config)
-  ctx.services = {}
+  ctx.services = await CreateServices(ctx.dbConnection.db(config.dbName))
   ctx.httpServer = await StartApiServer(config.api, ctx.services)
   return ctx
 }

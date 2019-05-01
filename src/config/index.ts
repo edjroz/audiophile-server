@@ -6,5 +6,6 @@ export default {
   api: {
     port: process.env.PORT || 3000
   },
-  dbUri: process.env.DB_URI
+  dbUri: process.env.DB_URI,
+  dbName: process.env.DB_NAME
 }
