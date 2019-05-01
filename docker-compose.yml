@@ -1,0 +1,21 @@
+version: '3.5'
+
+services:
+  app:
+    build: .
+    volumes:
+      - '.:/app'
+    ports:
+      - '3000:3000'
+    depends_on:
+      - database
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - DB_URI=mongodb://database:27017/audiophile_music
+      - DEBUG=app:*
+
+  database:
+    image: mongo:latest
+    ports:
+      - 27017:27017
