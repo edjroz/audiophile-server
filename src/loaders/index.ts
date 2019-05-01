@@ -7,14 +7,15 @@ import debug from 'debug'
 import createApi from '../api'
 
 // TODO: create Config interface
-export const CreateDbConnection = async (config: any) => {
-  if (config.Uri) {
+export const CreateDbConnection = async ({ dbUri }: { dbUri: string }) => {
+  if (!dbUri) {
     throw new Error('Invalid Configuration, cannot get mongodb uri')
   }
   return new Promise((resolve, reject) => {
-    mongodb.connect(config.dbUri, (err: Error, conn: any) => {
+    mongodb.connect(dbUri, { useNewUrlParser: true },(err: Error, conn: any) => {
       if (err) {
-        return reject(new Error(''))
+        debug('app:startup:database:error')(err)
+        return reject(new Error("couldn't connect with database"))
       }
       return resolve(conn)
     })
@@ -44,7 +45,7 @@ export const StartApiServer = async (config: any, services: any) => {
 
 // TODO: create ctx interface
 export const startApplication = async (config: any, ctx: any) => {
-  // ctx.dbConnection = await CreateDbConnection(config)
+  ctx.dbConnection = await CreateDbConnection(config)
   ctx.services = {}
   ctx.httpServer = await StartApiServer(config.api, ctx.services)
   return ctx
