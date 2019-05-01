@@ -8,6 +8,7 @@ import createApi from '../api'
 
 // TODO: create Config interface
 export const CreateDbConnection = async ({ dbUri }: { dbUri: string }) => {
+  console.log(dbUri)
   if (!dbUri) {
     throw new Error('Invalid Configuration, cannot get mongodb uri')
   }
@@ -45,6 +46,7 @@ export const StartApiServer = async (config: any, services: any) => {
 
 // TODO: create ctx interface
 export const startApplication = async (config: any, ctx: any) => {
+  console.log(config)
   ctx.dbConnection = await CreateDbConnection(config)
   ctx.services = {}
   ctx.httpServer = await StartApiServer(config.api, ctx.services)

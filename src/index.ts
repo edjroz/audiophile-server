@@ -5,10 +5,11 @@ import { startApplication } from './loaders'
 
 startApplication(config, {})
   .then(() => {
+    console.log('App is running')
     debug('app:startup:success')('🌌  houston we have a success 🌕 ')
   })
   .catch(err => {
-    debug('app:startup:erro')('💥  houston we have a problem')
+    debug('app:startup:error')('💥  houston we have a problem')
     debug('app:startup:error')(err)
-    process.exit(1)
+    process.exit(2)
   })
