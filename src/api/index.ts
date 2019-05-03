@@ -10,9 +10,7 @@ export default (services: any, config: any) => {
   app.use(morgan('common'))
   app.use(cors())
   app.use(compression())
-  // app.get('/health', (req, res)=> {
-  //   res.json({status: 'Service is running'})
-  // })
+  
   routes.map(route => route(app, services))
   return app
 }
